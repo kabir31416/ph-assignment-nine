@@ -14,6 +14,7 @@ export default function Navbar() {
     { name: "Add Idea", path: "/add-idea" },
     { name: "My Ideas", path: "/my-ideas" },
     { name: "My Interactions", path: "/my-interactions" },
+    { name: "Login", path: "/login" },
   ];
 
   // Load saved theme

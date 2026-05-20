@@ -44,7 +44,6 @@ export default function AddIdeaPage() {
     <div className="min-h-screen px-4 py-10">
       <div className="max-w-4xl mx-auto bg-white dark:bg-gray-900 shadow-xl rounded-2xl p-8 border border-yellow-100 dark:border-gray-800">
         
-        
         <div className="mb-8 text-center">
           <h1 className="text-3xl font-bold bg-linear-to-r from-yellow-600 via-amber-500 to-orange-500 bg-clip-text text-transparent">
             Submit Your Startup Idea
@@ -55,7 +54,6 @@ export default function AddIdeaPage() {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          
           
           <div>
             <label className="block mb-2 font-medium">
@@ -72,7 +70,6 @@ export default function AddIdeaPage() {
             />
           </div>
 
-          
           <div>
             <label className="block mb-2 font-medium">
               Short Description
@@ -88,7 +85,6 @@ export default function AddIdeaPage() {
             />
           </div>
 
-          
           <div>
             <label className="block mb-2 font-medium">
               Detailed Description
@@ -104,7 +100,6 @@ export default function AddIdeaPage() {
             />
           </div>
 
-        
           <div className="grid md:grid-cols-2 gap-6">
             <div>
               <label className="block mb-2 font-medium">
@@ -142,7 +137,6 @@ export default function AddIdeaPage() {
             </div>
           </div>
 
-          
           <div className="grid md:grid-cols-2 gap-6">
             <div>
               <label className="block mb-2 font-medium">
@@ -173,7 +167,6 @@ export default function AddIdeaPage() {
             </div>
           </div>
 
-          
           <div>
             <label className="block mb-2 font-medium">
               Target Audience
@@ -189,7 +182,6 @@ export default function AddIdeaPage() {
             />
           </div>
 
-          
           <div>
             <label className="block mb-2 font-medium">
               Problem Statement
@@ -205,7 +197,6 @@ export default function AddIdeaPage() {
             />
           </div>
 
-          
           <div>
             <label className="block mb-2 font-medium">
               Proposed Solution
@@ -221,7 +212,6 @@ export default function AddIdeaPage() {
             />
           </div>
 
-          
           <button
             type="submit"
             className="w-full py-3 rounded-xl bg-linear-to-r from-yellow-500 to-orange-500 text-white font-semibold hover:scale-[1.02] transition"
