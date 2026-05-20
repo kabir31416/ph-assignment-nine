@@ -24,19 +24,27 @@ export default function AddIdeaPage() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(formData);
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData.entries());
 
-    alert("Idea submitted successfully!");
+    const res = await fetch("http://localhost:5000/ideas/", {
+      method: "POST",
+      headers: {    "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+
+    const result = await res.json();
+    console.log('Response from server:', result);
   };
 
   return (
     <div className="min-h-screen px-4 py-10">
       <div className="max-w-4xl mx-auto bg-white dark:bg-gray-900 shadow-xl rounded-2xl p-8 border border-yellow-100 dark:border-gray-800">
         
-        {/* Header */}
+        
         <div className="mb-8 text-center">
           <h1 className="text-3xl font-bold bg-linear-to-r from-yellow-600 via-amber-500 to-orange-500 bg-clip-text text-transparent">
             Submit Your Startup Idea
@@ -48,7 +56,7 @@ export default function AddIdeaPage() {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           
-          {/* Idea Title */}
+          
           <div>
             <label className="block mb-2 font-medium">
               Idea Title
@@ -64,7 +72,7 @@ export default function AddIdeaPage() {
             />
           </div>
 
-          {/* Short Description */}
+          
           <div>
             <label className="block mb-2 font-medium">
               Short Description
@@ -80,7 +88,7 @@ export default function AddIdeaPage() {
             />
           </div>
 
-          {/* Detailed Description */}
+          
           <div>
             <label className="block mb-2 font-medium">
               Detailed Description
@@ -96,7 +104,7 @@ export default function AddIdeaPage() {
             />
           </div>
 
-          {/* Category + Tags */}
+        
           <div className="grid md:grid-cols-2 gap-6">
             <div>
               <label className="block mb-2 font-medium">
@@ -134,7 +142,7 @@ export default function AddIdeaPage() {
             </div>
           </div>
 
-          {/* Image + Budget */}
+          
           <div className="grid md:grid-cols-2 gap-6">
             <div>
               <label className="block mb-2 font-medium">
@@ -165,7 +173,7 @@ export default function AddIdeaPage() {
             </div>
           </div>
 
-          {/* Target Audience */}
+          
           <div>
             <label className="block mb-2 font-medium">
               Target Audience
@@ -181,7 +189,7 @@ export default function AddIdeaPage() {
             />
           </div>
 
-          {/* Problem Statement */}
+          
           <div>
             <label className="block mb-2 font-medium">
               Problem Statement
@@ -197,7 +205,7 @@ export default function AddIdeaPage() {
             />
           </div>
 
-          {/* Proposed Solution */}
+          
           <div>
             <label className="block mb-2 font-medium">
               Proposed Solution
@@ -213,7 +221,7 @@ export default function AddIdeaPage() {
             />
           </div>
 
-          {/* Submit */}
+          
           <button
             type="submit"
             className="w-full py-3 rounded-xl bg-linear-to-r from-yellow-500 to-orange-500 text-white font-semibold hover:scale-[1.02] transition"

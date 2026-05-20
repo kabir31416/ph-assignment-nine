@@ -52,8 +52,8 @@ export default function HomePage() {
           {slides.map((slide, index) => (
             <SwiperSlide key={index}>
               <div className="relative h-full">
-                
-    
+
+
                 <div
                   className="absolute inset-0 bg-cover bg-center"
                   style={{
@@ -61,10 +61,10 @@ export default function HomePage() {
                   }}
                 />
 
-                
+
                 <div className="absolute inset-0 bg-black/55" />
 
-                
+
                 <div className="relative z-10 h-full flex items-center justify-center text-center px-6">
                   <div className="max-w-3xl text-white">
                     <h1 className="text-4xl md:text-6xl font-bold leading-tight">
