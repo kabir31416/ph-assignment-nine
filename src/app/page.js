@@ -9,6 +9,12 @@ import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import HowItWorks from "@/components/HowItWorks";
+import PlatformImpact from "@/components/PlatformStats";
+import IdeaCard from "@/components/IdeaCard";
+
+const res = await fetch("http://localhost:5000/ideas/trending")
+const ideas = await res.json();
 
 export default function HomePage() {
   const slides = [
@@ -89,6 +95,15 @@ export default function HomePage() {
           ))}
         </Swiper>
       </section>
+
+      <div className="grid grid-cols-3 gap-4 max-w-[80vw] mx-auto p-5">
+        {
+          ideas.map(idea => <IdeaCard key={idea._id} idea={idea} />)
+        }
+      </div>
+
+      <HowItWorks></HowItWorks>
+      <PlatformImpact></PlatformImpact>
     </main>
   );
 }
