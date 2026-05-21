@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { authClient } from "@/app/lib/auth-client";
 import Image from "next/image";
+import { toast } from "react-toastify";
 
 export default function CommentsSection({ ideaId }) {
     const { data: session } = authClient.useSession();
@@ -57,6 +58,8 @@ export default function CommentsSection({ ideaId }) {
             });
         }
 
+        toast.success(editingId ? "Comment updated!" : "Comment added!");
+
         setText("");
         loadComments();
     };
@@ -69,6 +72,7 @@ export default function CommentsSection({ ideaId }) {
             }
         );
 
+        toast.success("Comment deleted!");
         loadComments();
     };
 

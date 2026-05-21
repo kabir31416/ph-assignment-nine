@@ -1,6 +1,8 @@
 "use client";
 import { useState } from "react";
 import { authClient } from "@/app/lib/auth-client";
+import { toast } from "react-toastify";
+
 
 export default function AddIdeaPage() {
 
@@ -43,6 +45,8 @@ export default function AddIdeaPage() {
       },
       body: JSON.stringify(formData),
     });
+
+    toast.success("Idea submitted successfully!");
 
     const result = await res.json();
     console.log(result);
