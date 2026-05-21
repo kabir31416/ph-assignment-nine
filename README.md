@@ -162,7 +162,7 @@ Each comment contains:
 ## 👨‍💻 Author
 
 Sahariar Kabir  
-Full Stack Developer
+MERN Stack Developer
 
 ---
 
