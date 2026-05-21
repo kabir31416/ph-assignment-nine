@@ -61,6 +61,7 @@ export default function ProfilePage() {
 
   return (
     <section className="min-h-screen py-16 px-4">
+      <title>{`Profile | IdeaVault`}</title>
       <div className="max-w-2xl mx-auto bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl rounded-3xl shadow-xl border border-white/30 dark:border-gray-800 p-8">
         
         <div className="text-center mb-8">

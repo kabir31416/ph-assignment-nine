@@ -43,6 +43,7 @@ export default async function IdeaDetailsPage({
 
     return (
         <section className="min-h-screen py-2 px-4">
+            <title>{`${idea.title} | IdeaVault`}</title>
             <div className="max-w-5xl mx-auto">
                 <Link
                     href="/ideas"

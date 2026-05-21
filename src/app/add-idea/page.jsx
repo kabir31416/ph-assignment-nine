@@ -50,6 +50,7 @@ export default function AddIdeaPage() {
 
   return (
     <div className="min-h-screen px-4 py-10">
+      <title>{`Add Idea | IdeaVault`}</title>
       <div className="max-w-4xl mx-auto bg-white dark:bg-gray-900 shadow-xl rounded-2xl p-8 border border-yellow-100 dark:border-gray-800">
 
         <div className="mb-8 text-center">

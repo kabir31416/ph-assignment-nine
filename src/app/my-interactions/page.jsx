@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { authClient } from "@/app/lib/auth-client";
 import Link from "next/link";
+import { SquareArrowOutUpRight, TextInitial } from "lucide-react";
 
 export default function MyInteractionsPage() {
     const { data: session, isPending } = authClient.useSession();
@@ -14,15 +15,11 @@ export default function MyInteractionsPage() {
     const loadInteractions = async (email) => {
         try {
             setLoading(true);
-
             const res = await fetch(
                 `http://localhost:5000/my-interactions/${email}`
             );
-
             const data = await res.json();
             setComments(data);
-        } catch (error) {
-            console.error("Failed to load interactions:", error);
         } finally {
             setLoading(false);
         }
@@ -71,9 +68,10 @@ export default function MyInteractionsPage() {
 
     return (
         <section className="min-h-screen px-4 py-10">
+            <title>{`My Interactions | IdeaVault`}</title>
             <div className="max-w-4xl mx-auto">
                 <h1 className="text-3xl font-bold mb-8">
-                    My Interactions
+                    My Interactions ({comments.length})
                 </h1>
 
                 {loading ? (
@@ -87,20 +85,20 @@ export default function MyInteractionsPage() {
                         {comments.map((item) => (
                             <div
                                 key={item._id}
-                                className="bg-white dark:bg-gray-900 rounded-2xl shadow p-6 border"
+                                className="bg-white dark:bg-gray-900 rounded-2xl shadow p-3 border"
                             >
                                 <Link
                                     href={`/ideas/${item.idea?._id}`}
-                                    className="text-xl font-semibold text-yellow-600 hover:underline"
+                                    className=" flex gap-1 items-center text-xl font-semibold text-yellow-600 hover:underline"
                                 >
-                                    {item.idea?.title}
+                                 {item.idea?.title} <SquareArrowOutUpRight height={20} width={20} />
                                 </Link>
 
-                                <p className="mt-3 text-gray-700 dark:text-gray-300">
+                                <p className=" text-gray-700 dark:text-gray-300">
                                     {item.text}
                                 </p>
 
-                                <div className="mt-4 flex items-center justify-between">
+                                <div className="flex items-center justify-between">
                                     <span className="text-sm text-gray-400">
                                         {item.createdAt
                                             ? new Date(

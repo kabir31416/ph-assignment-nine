@@ -13,6 +13,8 @@ import HowItWorks from "@/components/HowItWorks";
 import PlatformImpact from "@/components/PlatformStats";
 import IdeaCard from "@/components/IdeaCard";
 
+
+
 const res = await fetch("http://localhost:5000/ideas/trending")
 const ideas = await res.json();
 

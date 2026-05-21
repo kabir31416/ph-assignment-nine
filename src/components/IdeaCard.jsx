@@ -55,9 +55,9 @@ export default function IdeaCard({ idea }) {
           <Image
             src={userImage || "https://i.pravatar.cc/150"}
             alt={username || "Anonymous"}
-            width={24}
-            height={24}
-            className="w-9 h-9 rounded-full object-cover"
+            width={20}
+            height={20}
+            className="w-7 h-7 rounded-full object-cover"
           />
 
           <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">

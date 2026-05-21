@@ -67,6 +67,7 @@ export default function RegisterPage() {
 
     return (
         <section className="min-h-screen flex items-center justify-center px-4 py-16">
+            <title>{`Sign Up | IdeaVault`}</title>
             <div className="w-full max-w-md bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl rounded-3xl border border-white/30 dark:border-gray-800 shadow-xl p-8">
 
                 

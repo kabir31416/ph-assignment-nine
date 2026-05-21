@@ -35,6 +35,7 @@ export default function LoginPage() {
 
     return (
         <section className="min-h-screen flex items-center justify-center px-4">
+            <title>{`Login | IdeaVault`}</title>
             <div className="w-full max-w-md bg-white dark:bg-gray-900 rounded-3xl shadow-xl p-8">
                 <h1 className="text-3xl font-bold text-center mb-6">
                     Login

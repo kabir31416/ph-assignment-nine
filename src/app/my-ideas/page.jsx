@@ -20,6 +20,7 @@ export default function MyIdeasPage() {
 
   return (
     <div className="min-h-screen px-4 py-10">
+      <title>{`My Ideas | IdeaVault`}</title>
       <h1 className="text-3xl font-bold mb-8">My Ideas</h1>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mx-auto p-5">
