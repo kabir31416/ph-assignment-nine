@@ -17,6 +17,9 @@ export default function MyInteractionsPage() {
             setLoading(true);
             const res = await fetch(
                 `http://localhost:5000/my-interactions/${email}`
+            , {
+                credentials: "include",
+            }
             );
             const data = await res.json();
             setComments(data);
@@ -37,6 +40,7 @@ export default function MyInteractionsPage() {
                 `http://localhost:5000/comments/${id}`,
                 {
                     method: "DELETE",
+                    credentials: "include",
                 }
             );
 

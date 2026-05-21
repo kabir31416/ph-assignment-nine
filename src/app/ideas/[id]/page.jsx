@@ -17,6 +17,7 @@ const getIdea = async (id) => {
             `http://localhost:5000/ideas/${id}`,
             {
                 cache: "no-store",
+                credentials: "include",
             }
         );
 

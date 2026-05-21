@@ -44,6 +44,7 @@ export default function AddIdeaPage() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(formData),
+      credentials: "include",
     });
 
     toast.success("Idea submitted successfully!");

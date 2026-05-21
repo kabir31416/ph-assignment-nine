@@ -15,7 +15,10 @@ export default function CommentsSection({ ideaId }) {
 
     const loadComments = async () => {
         const res = await fetch(
-            `http://localhost:5000/comments/${ideaId}`
+            `http://localhost:5000/comments/${ideaId}`,
+            {
+                credentials: "include",
+            }
         );
         const data = await res.json();
         setComments(data);
@@ -32,6 +35,7 @@ export default function CommentsSection({ ideaId }) {
             await fetch(
                 `http://localhost:5000/comments/${editingId}`,
                 {
+                    credentials: "include",
                     method: "PUT",
                     headers: {
                         "Content-Type": "application/json",
@@ -44,6 +48,7 @@ export default function CommentsSection({ ideaId }) {
             setEditingId(null);
         } else {
             await fetch("http://localhost:5000/comments", {
+                credentials: "include",
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -68,6 +73,7 @@ export default function CommentsSection({ ideaId }) {
         await fetch(
             `http://localhost:5000/comments/${id}`,
             {
+                credentials: "include",
                 method: "DELETE",
             }
         );
