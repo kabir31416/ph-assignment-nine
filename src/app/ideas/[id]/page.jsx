@@ -10,32 +10,34 @@ import {
 import Image from "next/image";
 import CommentsSection from "./CommentsSection";
 import { notFound } from "next/navigation";
+import { auth } from "@/app/lib/auth";
+import { headers } from "next/headers";
 
 const getIdea = async (id) => {
-    try {
-        const res = await fetch(
-            `http://localhost:5000/ideas/${id}`,
-            {
-                cache: "no-store",
-                credentials: "include",
-            }
-        );
 
-        if (!res.ok) {
-            return null;
+    const { token } = await auth.api.getToken({
+        headers: await headers()
+    });
+
+    const res = await fetch(
+        `http://localhost:5000/ideas/${id}`,
+        {
+            cache: "no-store",
+            headers: {
+                authorization: `Bearer ${token}`
+            },
         }
+    );
 
-        return await res.json();
-    } catch (error) {
+    if (!res.ok) {
         return null;
     }
+    return await res.json();
 };
 
-export default async function IdeaDetailsPage({
-    params,
-}) {
-    const { id } = await params;
+export default async function IdeaDetailsPage({ params, }) {
 
+    const { id } = await params;
     const idea = await getIdea(id);
 
     if (!idea) {
@@ -144,7 +146,7 @@ export default async function IdeaDetailsPage({
                             </p>
                         </div>
 
-                    
+
                     </div>
                 </div>
 

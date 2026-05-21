@@ -3,9 +3,7 @@ import { useState } from "react";
 import { authClient } from "@/app/lib/auth-client";
 import { toast } from "react-toastify";
 
-
 export default function AddIdeaPage() {
-
   const { data: session } = authClient.useSession();
   const user = session?.user;
 
@@ -20,44 +18,62 @@ export default function AddIdeaPage() {
     targetAudience: "",
     problemStatement: "",
     proposedSolution: "",
-    username: user?.name || "Anonymous",
-    userImage: user?.image || "https://i.pravatar.cc/150",
-    userEmail: user?.email || "user@ideavault.com",
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-      username: user?.name || "Anonymous",
-      userImage: user?.image || "https://i.pravatar.cc/150",
-      userEmail: user?.email || "user@ideavault.com",
-    }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const { data } = await authClient.getSession();
+    const token = data?.session?.token;
+
+    const ideaData = {
+      ...formData,
+      username: user?.name || "Anonymous",
+      userImage: user?.image || "https://i.pravatar.cc/150",
+      userEmail: user?.email || "user@ideavault.com",
+    };
+
     const res = await fetch("http://localhost:5000/ideas", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(formData),
-      credentials: "include",
+      body: JSON.stringify(ideaData),
     });
 
-    toast.success("Idea submitted successfully!");
-
     const result = await res.json();
+
+    if (res.ok) {
+      toast.success("Idea submitted successfully!");
+      setFormData({
+        title: "",
+        shortDescription: "",
+        detailedDescription: "",
+        category: "",
+        tags: "",
+        imageUrl: "",
+        budget: "",
+        targetAudience: "",
+        problemStatement: "",
+        proposedSolution: "",
+      });
+    } else {
+      toast.error("Failed to submit idea");
+    }
+
     console.log(result);
   };
 
   return (
     <div className="min-h-screen px-4 py-10">
-      <title>{`Add Idea | IdeaVault`}</title>
+      <title>Add Idea | IdeaVault</title>
       <div className="max-w-4xl mx-auto bg-white dark:bg-gray-900 shadow-xl rounded-2xl p-8 border border-yellow-100 dark:border-gray-800">
-
         <div className="mb-8 text-center">
           <h1 className="text-3xl font-bold bg-linear-to-r from-yellow-600 via-amber-500 to-orange-500 bg-clip-text text-transparent">
             Submit Your Startup Idea

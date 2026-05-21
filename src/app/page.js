@@ -98,7 +98,7 @@ export default function HomePage() {
         </Swiper>
       </section>
 
-      <div className="grid grid-cols-3 gap-4 max-w-[80vw] mx-auto p-5">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mx-auto p-5">
         {
           ideas.map(idea => <IdeaCard key={idea._id} idea={idea} />)
         }
