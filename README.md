@@ -1,36 +1,170 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 📌 Idea Vault
 
-## Getting Started
+A full-stack web application where users can create, explore, and interact with startup ideas. Built using Next.js, Node.js, Express, and MongoDB.
 
-First, run the development server:
+---
 
+## 🚀 Features
+
+- Create and share startup ideas
+- Search ideas by title (case-insensitive)
+- Filter ideas by category
+- Filter by date range
+- Comment system on ideas
+- View user interactions (My Interactions page)
+- Delete comments
+- Idea details page with comments
+- Authentication support
+
+---
+
+## 🛠️ Tech Stack
+
+Frontend:
+- Next.js (App Router)
+- React
+- Tailwind CSS
+
+Backend:
+- Node.js
+- Express.js
+
+Database:
+- MongoDB (Atlas)
+
+---
+
+## 📂 Project Structure
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+/frontend
+  app
+  components
+  lib
+
+/backend
+  index.js
+  routes
+  db
 ```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ⚙️ Installation
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### Clone repository
+```bash
+git clone https://github.com/kabir31416/idea-vault.git
+cd idea-vault
+```
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Backend setup
+```bash
+cd backend
+npm install
+```
+Create .env file:
+```bash
+PORT=5000
+MONGODB_URI=your_mongodb_connection_string
+```
+Run backend:
+```bash
+nodemon index.js
+```
+---
 
-## Learn More
+### Frontend setup
+```bash
+cd frontend
+npm install
+npm run dev
+```
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🌐 API Endpoints
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Ideas:
+```bash
+GET    /ideas
+POST   /ideas
+GET    /ideas/:id
+GET    /ideas/trending
+GET    /my-ideas/:email
+```
+Comments:
+```bash
+POST   /comments
+GET    /comments/:ideaId
+PUT    /comments/:id
+DELETE /comments/:id
+```
+My Interactions:
+```bash
+GET    /my-interactions/:email
+```
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🔍 Search & Filter
 
-## Deploy on Vercel
+Example:
+```bash
+GET /ideas?search=ai&category=Tech&startDate=2026-01-01&endDate=2026-12-31
+```
+Features:
+- Title search (case-insensitive)
+- Category filter
+- Optional date range filter
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 💬 Comment System
+
+Each comment contains:
+- userName
+- userEmail
+- userImage
+- text
+- createdAt
+
+---
+
+## 🧠 Core Logic
+
+- MongoDB aggregation for My Interactions
+- ObjectId relationship between ideas and comments
+- Server-side filtering using query params
+- REST API with Express
+
+---
+
+## 🐛 Fixed Issues
+
+- Session undefined crash fixed
+- ObjectId mismatch fixed
+- Filter not working fixed
+- Aggregation lookup fixed
+- CORS and JSON parsing handled
+
+---
+
+## 🚀 Future Improvements
+
+- Pagination system
+- Infinite scroll
+- Real-time comments (Socket.io)
+- Like system for ideas
+- Notification system
+- Admin dashboard
+
+---
+
+## 👨‍💻 Author
+
+Sahariar Kabir  
+Full Stack Developer
+
+---
+
+## 📄 License
+
+Free to use for learning and personal projects.
