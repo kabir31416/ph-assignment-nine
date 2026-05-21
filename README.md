@@ -24,6 +24,7 @@ Frontend:
 - Next.js (App Router)
 - React
 - Tailwind CSS
+- Hero UI
 
 Backend:
 - Node.js
