@@ -1,11 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { authClient } from "@/lib/auth-client";
+import { authClient } from "@/app/lib/auth-client";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { Eye, EyeOff, User, Mail, Lock, ImageIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { Button } from "@heroui/react";
+import { Icon } from "@iconify/react";
 
 export default function RegisterPage() {
     const router = useRouter();
@@ -43,10 +45,7 @@ export default function RegisterPage() {
         }
 
         const { error } = await authClient.signUp.email({
-            email,
-            password,
-            name,
-            image,
+            email, password, name, image,
         });
 
         if (error) {
@@ -60,11 +59,17 @@ export default function RegisterPage() {
         router.refresh();
     };
 
+    const handleGoogle = async () => {
+        await authClient.signIn.social({
+            provider: "google",
+        });
+    };
+
     return (
         <section className="min-h-screen flex items-center justify-center px-4 py-16">
             <div className="w-full max-w-md bg-white/70 dark:bg-gray-900/70 backdrop-blur-xl rounded-3xl border border-white/30 dark:border-gray-800 shadow-xl p-8">
 
-                {/* Heading */}
+                
                 <div className="text-center mb-8">
                     <h1 className="text-3xl font-bold bg-linear-to-r from-yellow-600 via-amber-500 to-orange-500 bg-clip-text text-transparent">
                         Create Account
@@ -74,10 +79,10 @@ export default function RegisterPage() {
                     </p>
                 </div>
 
-                {/* Form */}
+                
                 <form onSubmit={handleRegister} className="space-y-5">
 
-                    {/* Name */}
+                    
                     <div className="relative">
                         <User
                             size={18}
@@ -92,7 +97,7 @@ export default function RegisterPage() {
                         />
                     </div>
 
-                    {/* Email */}
+                    
                     <div className="relative">
                         <Mail
                             size={18}
@@ -107,7 +112,7 @@ export default function RegisterPage() {
                         />
                     </div>
 
-                    {/* Photo URL */}
+                    
                     <div className="relative">
                         <ImageIcon
                             size={18}
@@ -121,7 +126,7 @@ export default function RegisterPage() {
                         />
                     </div>
 
-                    {/* Password */}
+                    
                     <div className="relative">
                         <Lock
                             size={18}
@@ -149,13 +154,13 @@ export default function RegisterPage() {
                         </button>
                     </div>
 
-                    {/* Password rules */}
+                    
                     <p className="text-xs text-gray-500">
                         Must be at least 6 characters and include uppercase &
                         lowercase letters.
                     </p>
 
-                    {/* Submit */}
+                    
                     <button
                         disabled={loading}
                         className="w-full py-3 rounded-2xl bg-linear-to-r from-yellow-500 to-orange-500 text-white font-semibold hover:opacity-90 transition"
@@ -164,7 +169,12 @@ export default function RegisterPage() {
                     </button>
                 </form>
 
-                {/* Footer */}
+                <Button className="w-full mt-4" variant="tertiary" onClick={handleGoogle}>
+                    <Icon icon="devicon:google" />
+                    Sign in with Google
+                </Button>
+
+               
                 <p className="text-center mt-6 text-gray-600 dark:text-gray-300">
                     Already have an account?{" "}
                     <Link

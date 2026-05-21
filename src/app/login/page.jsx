@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useState } from "react";
 import { authClient } from "@/app/lib/auth-client";
+import {Icon} from "@iconify/react";
+import { Button } from "@heroui/react";
 export default function LoginPage() {
     const [loading, setLoading] = useState(false);
 
@@ -65,17 +67,15 @@ export default function LoginPage() {
                     </button>
                 </form>
 
-                <button
-                    onClick={handleGoogle}
-                    className="w-full mt-4 border py-3 rounded-xl"
-                >
-                    Continue with Google
-                </button>
+                <Button className="w-full mt-4" variant="tertiary" onClick={handleGoogle}>
+                    <Icon icon="devicon:google" />
+                    Sign in with Google
+                </Button>
 
                 <p className="text-center mt-6">
                     No account?{" "}
                     <Link
-                        href="/register"
+                        href="/sign-up"
                         className="text-yellow-600"
                     >
                         Register

@@ -1,7 +1,12 @@
 "use client";
 import { useState } from "react";
+import { authClient } from "@/app/lib/auth-client";
 
 export default function AddIdeaPage() {
+
+  const { data: session } = authClient.useSession();
+  const user = session?.user;
+
   const [formData, setFormData] = useState({
     title: "",
     shortDescription: "",
@@ -13,37 +18,40 @@ export default function AddIdeaPage() {
     targetAudience: "",
     problemStatement: "",
     proposedSolution: "",
+    username: user?.name || "Anonymous",
+    userImage: user?.image || "https://i.pravatar.cc/150",
+    userEmail: user?.email || "user@ideavault.com",
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       [name]: value,
-    });
+      username: user?.name || "Anonymous",
+      userImage: user?.image || "https://i.pravatar.cc/150",
+      userEmail: user?.email || "user@ideavault.com",
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData.entries());
-
-    const res = await fetch("http://localhost:5000/ideas/", {
+    const res = await fetch("http://localhost:5000/ideas", {
       method: "POST",
-      headers: {    "Content-Type": "application/json" },
-      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
     });
 
     const result = await res.json();
-    console.log('Response from server:', result);
+    console.log(result);
   };
 
   return (
     <div className="min-h-screen px-4 py-10">
       <div className="max-w-4xl mx-auto bg-white dark:bg-gray-900 shadow-xl rounded-2xl p-8 border border-yellow-100 dark:border-gray-800">
-        
+
         <div className="mb-8 text-center">
           <h1 className="text-3xl font-bold bg-linear-to-r from-yellow-600 via-amber-500 to-orange-500 bg-clip-text text-transparent">
             Submit Your Startup Idea
@@ -54,7 +62,7 @@ export default function AddIdeaPage() {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          
+
           <div>
             <label className="block mb-2 font-medium">
               Idea Title
