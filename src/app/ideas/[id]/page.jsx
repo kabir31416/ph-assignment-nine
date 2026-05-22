@@ -24,7 +24,7 @@ const getIdea = async (id) => {
         {
             cache: "no-store",
             headers: {
-                authorization: `Bearer ${token}`
+                Authorization: `Bearer ${token}`
             },
         }
     );

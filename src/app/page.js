@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { useEffect, useState } from "react";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Navigation } from "swiper/modules";
@@ -9,16 +10,32 @@ import { Autoplay, Pagination, Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+
 import HowItWorks from "@/components/HowItWorks";
 import PlatformImpact from "@/components/PlatformStats";
 import IdeaCard from "@/components/IdeaCard";
 
-
-
-const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/ideas/trending`);
-const ideas = await res.json();
-
 export default function HomePage() {
+
+  const [ideas, setIdeas] = useState([]);
+
+  useEffect(() => {
+    const fetchIdeas = async () => {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/ideas/trending`
+        );
+
+        const data = await res.json();
+        setIdeas(data);
+      } catch (error) {
+        console.error("Failed to fetch ideas:", error);
+      }
+    };
+
+    fetchIdeas();
+  }, []);
+
   const slides = [
     {
       title: "Turn Your Ideas Into Startups",
@@ -60,8 +77,6 @@ export default function HomePage() {
           {slides.map((slide, index) => (
             <SwiperSlide key={index}>
               <div className="relative h-full">
-
-
                 <div
                   className="absolute inset-0 bg-cover bg-center"
                   style={{
@@ -69,9 +84,7 @@ export default function HomePage() {
                   }}
                 />
 
-
                 <div className="absolute inset-0 bg-black/55" />
-
 
                 <div className="relative z-10 h-full flex items-center justify-center text-center px-6">
                   <div className="max-w-3xl text-white">
@@ -99,13 +112,13 @@ export default function HomePage() {
       </section>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mx-auto p-5">
-        {
-          ideas.map(idea => <IdeaCard key={idea._id} idea={idea} />)
-        }
+        {ideas.map((idea) => (
+          <IdeaCard key={idea._id} idea={idea} />
+        ))}
       </div>
 
-      <HowItWorks></HowItWorks>
-      <PlatformImpact></PlatformImpact>
+      <HowItWorks />
+      <PlatformImpact />
     </main>
   );
 }

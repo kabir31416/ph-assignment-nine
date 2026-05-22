@@ -25,50 +25,57 @@ export default function AddIdeaPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    const { data } = await authClient.getSession();
-    const token = data?.token;
+  const { data } = await authClient.getSession();
 
-    const ideaData = {
-      ...formData,
-      username: user?.name || "Anonymous",
-      userImage: user?.image || "https://i.pravatar.cc/150",
-      userEmail: user?.email || "user@ideavault.com",
-    };
+  const token = data?.session?.token;
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/ideas`, {
+  console.log("TOKEN:", token);
+
+  const ideaData = {
+    ...formData,
+    username: user?.name || "Anonymous",
+    userImage: user?.image || "https://i.pravatar.cc/150",
+    userEmail: user?.email || "user@ideavault.com",
+  };
+
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/ideas`,
+    {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(ideaData),
-    });
-
-    const result = await res.json();
-
-    if (res.ok) {
-      toast.success("Idea submitted successfully!");
-      setFormData({
-        title: "",
-        shortDescription: "",
-        detailedDescription: "",
-        category: "",
-        tags: "",
-        imageUrl: "",
-        budget: "",
-        targetAudience: "",
-        problemStatement: "",
-        proposedSolution: "",
-      });
-    } else {
-      toast.error("Failed to submit idea");
     }
+  );
 
-    console.log(result);
-  };
+  const result = await res.json();
+
+  if (res.ok) {
+    toast.success("Idea submitted successfully!");
+
+    setFormData({
+      title: "",
+      shortDescription: "",
+      detailedDescription: "",
+      category: "",
+      tags: "",
+      imageUrl: "",
+      budget: "",
+      targetAudience: "",
+      problemStatement: "",
+      proposedSolution: "",
+    });
+  } else {
+    toast.error(result.message || "Failed to submit idea");
+  }
+
+  console.log(result);
+};
 
   return (
     <div className="min-h-screen px-4 py-10">

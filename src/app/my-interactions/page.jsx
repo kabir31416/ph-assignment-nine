@@ -21,7 +21,7 @@ export default function MyInteractionsPage() {
         `${process.env.NEXT_PUBLIC_SERVER_URL}/my-interactions/${email}`,
         {
           headers: {
-            authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
@@ -47,7 +47,7 @@ export default function MyInteractionsPage() {
       await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/comments/${id}`, {
         method: "DELETE",
         headers: {
-          authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 

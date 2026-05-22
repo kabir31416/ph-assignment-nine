@@ -29,7 +29,7 @@ export default function MyIdeasPage() {
         `${process.env.NEXT_PUBLIC_SERVER_URL}/my-ideas/${user.email}`,
         {
           headers: {
-            authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         }
       );
