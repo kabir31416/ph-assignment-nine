@@ -24,6 +24,7 @@ Frontend:
 - Next.js (App Router)
 - React
 - Tailwind CSS
+- Hero UI
 
 Backend:
 - Node.js
@@ -161,7 +162,7 @@ Each comment contains:
 ## 👨‍💻 Author
 
 Sahariar Kabir  
-Full Stack Developer
+MERN Stack Developer
 
 ---
 
