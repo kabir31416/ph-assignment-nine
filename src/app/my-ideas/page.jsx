@@ -13,7 +13,7 @@ export default function MyIdeasPage() {
     const loadIdeas = async () => {
       if (!user?.email) return;
 
-      const { data } = await authClient.getSession();
+      const { data } = await authClient.token();
       const token = data?.session?.token;
 
       const res = await fetch(`http://localhost:5000/my-ideas/${user.email}`, {
@@ -30,7 +30,7 @@ export default function MyIdeasPage() {
   }, [user]);
 
   const handleUpdate = async (id, updatedData) => {
-    const { data } = await authClient.getSession();
+    const { data } = await authClient.token();
     const token = data?.session?.token;
 
     await fetch(`http://localhost:5000/ideas/${id}`, {
@@ -50,7 +50,7 @@ export default function MyIdeasPage() {
   };
 
   const handleDelete = async (id) => {
-    const { data } = await authClient.getSession();
+    const { data } = await authClient.token();
     const token = data?.session?.token;
 
     await fetch(`http://localhost:5000/ideas/${id}`, {
