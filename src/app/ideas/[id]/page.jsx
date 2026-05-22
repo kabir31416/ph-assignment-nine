@@ -20,7 +20,7 @@ const getIdea = async (id) => {
     });
 
     const res = await fetch(
-        `http://localhost:5000/ideas/${id}`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/ideas/${id}`,
         {
             cache: "no-store",
             headers: {

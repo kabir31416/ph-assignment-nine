@@ -15,7 +15,7 @@ import IdeaCard from "@/components/IdeaCard";
 
 
 
-const res = await fetch("http://localhost:5000/ideas/trending")
+const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/ideas/trending`);
 const ideas = await res.json();
 
 export default function HomePage() {

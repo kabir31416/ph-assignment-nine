@@ -15,10 +15,10 @@ export default function MyInteractionsPage() {
     try {
       setLoading(true);
       const { data } = await authClient.getSession();
-      const token = data?.session?.token;
+      const token = data?.token;
 
       const res = await fetch(
-        `http://localhost:5000/my-interactions/${email}`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/my-interactions/${email}`,
         {
           headers: {
             authorization: `Bearer ${token}`,
@@ -42,9 +42,9 @@ export default function MyInteractionsPage() {
   const handleDelete = async (id) => {
     try {
       const { data } = await authClient.getSession();
-      const token = data?.session?.token;
+      const token = data?.token;
 
-      await fetch(`http://localhost:5000/comments/${id}`, {
+      await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/comments/${id}`, {
         method: "DELETE",
         headers: {
           authorization: `Bearer ${token}`,

@@ -15,7 +15,7 @@ export default function CommentsSection({ ideaId }) {
 
     const loadComments = async () => {
         const res = await fetch(
-            `http://localhost:5000/comments/${ideaId}`,
+            `${process.env.NEXT_PUBLIC_SERVER_URL}/comments/${ideaId}`,
             {
                 credentials: "include",
             }
@@ -33,7 +33,7 @@ export default function CommentsSection({ ideaId }) {
 
         if (editingId) {
             await fetch(
-                `http://localhost:5000/comments/${editingId}`,
+                `${process.env.NEXT_PUBLIC_SERVER_URL}/comments/${editingId}`,
                 {
                     credentials: "include",
                     method: "PUT",
@@ -47,7 +47,7 @@ export default function CommentsSection({ ideaId }) {
             );
             setEditingId(null);
         } else {
-            await fetch("http://localhost:5000/comments", {
+            await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/comments`, {
                 credentials: "include",
                 method: "POST",
                 headers: {
@@ -71,7 +71,7 @@ export default function CommentsSection({ ideaId }) {
 
     const handleDelete = async (id) => {
         await fetch(
-            `http://localhost:5000/comments/${id}`,
+            `${process.env.NEXT_PUBLIC_SERVER_URL}/comments/${id}`,
             {
                 credentials: "include",
                 method: "DELETE",

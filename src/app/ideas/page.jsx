@@ -15,7 +15,7 @@ export default function IdeasPage() {
   useEffect(() => {
     const fetchAllIdeas = async () => {
       try {
-        const res = await fetch("http://localhost:5000/ideas", {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/ideas`, {
           cache: "no-store",
         });
         const data = await res.json();
