@@ -26,17 +26,14 @@ export default function Navbar() {
   const { data: session, isPending } = authClient.useSession();
   const user = session?.user;
 
-  const publicLinks = [
+
+  const navLinks = [
     { name: "Home", path: "/" },
     { name: "Ideas", path: "/ideas" },
-  ];
-
-  const privateLinks = [
     { name: "Add Idea", path: "/add-idea" },
     { name: "My Ideas", path: "/my-ideas" },
     { name: "My Interactions", path: "/my-interactions" },
   ];
-
 
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
@@ -61,6 +58,7 @@ export default function Navbar() {
 
   const handleLogout = async () => {
     await authClient.signOut();
+    router.push("/");
     router.refresh();
   };
 
@@ -69,6 +67,7 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <div className="flex items-center justify-between h-16">
 
+          
           <Link href="/" className="flex items-center gap-2">
             <Lightbulb className="text-yellow-600" size={28} />
             <span className="text-2xl font-bold bg-linear-to-r from-yellow-600 via-amber-500 to-orange-500 bg-clip-text text-transparent">
@@ -76,8 +75,9 @@ export default function Navbar() {
             </span>
           </Link>
 
+          
           <div className="hidden md:flex items-center gap-8">
-            {publicLinks.map((link) => (
+            {navLinks.map((link) => (
               <Link
                 key={link.path}
                 href={link.path}
@@ -86,25 +86,14 @@ export default function Navbar() {
                 {link.name}
               </Link>
             ))}
-
-            {user &&
-              privateLinks.map((link) => (
-                <Link
-                  key={link.path}
-                  href={link.path}
-                  className="text-gray-700 dark:text-gray-200 hover:text-yellow-600 transition"
-                >
-                  {link.name}
-                </Link>
-              ))}
           </div>
 
           
           <div className="flex items-center gap-3">
-
+           
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-full bg-yellow-100 dark:bg-gray-800 hover:scale-110 transition"
+              className="p-2 rounded-full bg-yellow-100 dark:bg-gray-800"
             >
               {darkMode ? (
                 <Sun className="text-yellow-500" size={20} />
@@ -113,15 +102,10 @@ export default function Navbar() {
               )}
             </button>
 
-            {!isPending && !user && (
+           
+            {!isPending && !user ? (
               <div className="hidden md:flex items-center gap-3">
-                <Link
-                  href="/login"
-                  className="text-gray-700 dark:text-gray-200 hover:text-yellow-600"
-                >
-                  Login
-                </Link>
-
+                <Link href="/login">Login</Link>
                 <Link
                   href="/sign-up"
                   className="px-4 py-2 rounded-xl bg-linear-to-r from-yellow-500 to-orange-500 text-white"
@@ -129,122 +113,79 @@ export default function Navbar() {
                   Sign Up
                 </Link>
               </div>
-            )}
+            ) : (
+              !isPending &&
+              user && (
+                <div className="relative hidden md:block">
+                  <button
+                    onClick={() => setProfileOpen(!profileOpen)}
+                    className="flex items-center gap-2"
+                  >
+                    <Image
+                      src={user.image || "https://i.pravatar.cc/100"}
+                      alt="profile"
+                      width={36}
+                      height={36}
+                      className="rounded-full"
+                    />
+                    <span>{user?.name?.split(" ")[0]}</span>
+                    <ChevronDown size={18} />
+                  </button>
 
-            {!isPending && user && (
-              <div className="relative hidden md:block">
-                <button
-                  onClick={() =>
-                    setProfileOpen(!profileOpen)
-                  }
-                  className="flex items-center gap-2"
-                >
-                  <Image
-                    src={
-                      user.image ||
-                      "https://i.pravatar.cc/100"
-                    }
-                    alt="profile"
-                    width={32}
-                    height={32}
-                    className="w-9 h-9 rounded-full object-cover"
-                  />
+                  {profileOpen && (
+                    <div className="absolute right-0 mt-3 w-56 rounded-2xl bg-white dark:bg-gray-900 shadow-lg p-2">
+                      <Link
+                        href="/profile"
+                        className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-yellow-50"
+                      >
+                        <User size={16} />
+                        Profile
+                      </Link>
 
-                  <h1>
-                    {user.name.split(" ")[0]}
-                  </h1>
-
-                  <ChevronDown size={18} />
-                </button>
-
-                {profileOpen && (
-                  <div className="absolute right-0 mt-3 w-52 rounded-2xl bg-white dark:bg-gray-900 border border-yellow-100 dark:border-gray-800 shadow-lg p-2">
-
-                    <div className="px-3 py-2 border-b border-gray-100 dark:border-gray-800">
-                      <p className="font-medium">
-                        {user.name}
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        {user.email}
-                      </p>
+                      <button
+                        onClick={handleLogout}
+                        className="w-full flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-red-50 text-red-500"
+                      >
+                        <LogOut size={16} />
+                        Logout
+                      </button>
                     </div>
-
-                    <Link
-                      href="/profile"
-                      className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-yellow-50 dark:hover:bg-gray-800"
-                    >
-                      <User size={16} />
-                      Profile
-                    </Link>
-
-                    <button
-                      onClick={handleLogout}
-                      className="w-full flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-red-50 text-red-500"
-                    >
-                      <LogOut size={16} />
-                      Logout
-                    </button>
-                  </div>
-                )}
-              </div>
+                  )}
+                </div>
+              )
             )}
 
+           
             <button
-              onClick={() =>
-                setMenuOpen(!menuOpen)
-              }
-              className="md:hidden text-gray-700 dark:text-white"
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="md:hidden"
             >
-              {menuOpen ? (
-                <X size={28} />
-              ) : (
-                <Menu size={28} />
-              )}
+              {menuOpen ? <X size={28} /> : <Menu size={28} />}
             </button>
           </div>
         </div>
 
+        
         {menuOpen && (
           <div className="md:hidden pb-4 flex flex-col gap-3 border-t pt-4">
-            {publicLinks.map((link) => (
+            {navLinks.map((link) => (
               <Link
                 key={link.path}
                 href={link.path}
-                onClick={() =>
-                  setMenuOpen(false)
-                }
-                className="text-gray-700 dark:text-gray-200 hover:text-yellow-600"
+                onClick={() => setMenuOpen(false)}
               >
                 {link.name}
               </Link>
             ))}
 
-            {user &&
-              privateLinks.map((link) => (
-                <Link
-                  key={link.path}
-                  href={link.path}
-                  onClick={() =>
-                    setMenuOpen(false)
-                  }
-                  className="text-gray-700 dark:text-gray-200 hover:text-yellow-600"
-                >
-                  {link.name}
-                </Link>
-              ))}
-
             {!user ? (
               <>
                 <Link href="/login">Login</Link>
-                <Link href="/register">
-                  Sign Up
-                </Link>
+                <Link href="/sign-up">Sign Up</Link>
               </>
             ) : (
               <>
-                <Link href="/profile">
-                  Profile
-                </Link>
+                <Link href="/profile">Profile</Link>
                 <button
                   onClick={handleLogout}
                   className="text-left text-red-500"

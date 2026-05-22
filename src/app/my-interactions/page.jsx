@@ -65,15 +65,6 @@ export default function MyInteractionsPage() {
     );
   }
 
-  // if (!user?.email) {
-  //   return (
-  //     <section className="min-h-screen flex items-center justify-center">
-  //       <p className="text-red-500">
-  //         Please login to see your interactions.
-  //       </p>
-  //     </section>
-  //   );
-  // }
 
   return (
     <section className="min-h-screen px-4 py-10">

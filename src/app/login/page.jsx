@@ -3,48 +3,68 @@
 import Link from "next/link";
 import { useState } from "react";
 import { authClient } from "@/app/lib/auth-client";
-import {Icon} from "@iconify/react";
+import { Icon } from "@iconify/react";
 import { Button } from "@heroui/react";
+import { useRouter, useSearchParams } from "next/navigation";
+
 export default function LoginPage() {
     const [loading, setLoading] = useState(false);
 
+    const router = useRouter();
+    const searchParams = useSearchParams();
+
+    const callbackUrl = searchParams.get("callbackUrl") || "/";
+
     const handleLogin = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+
+        const form = new FormData(e.currentTarget);
+
+        const email = form.get("email");
+        const password = form.get("password");
+
         const { data, error } = await authClient.signIn.email({
-            email: e.email,
-            password: e.password,
-            image: e.photo,
-            callbackURL: "/login",
+            email,
+            password,
+            callbackURL: callbackUrl, 
         });
 
-        console.log(data, error)
+        setLoading(false);
 
         if (error) {
-            alert(error.message)
+            alert(error.message);
+            return;
         }
 
         if (data) {
-            alert(data.message)
+            router.push(callbackUrl);
         }
     };
 
     const handleGoogle = async () => {
-        await authClient.signIn.social({
+        const { data, error } = await authClient.signIn.social({
             provider: "google",
+            callbackURL: callbackUrl,
         });
+
+        if (error) {
+            alert(error.message);
+            return;
+        }
+
+        if (data) {
+            router.push(callbackUrl);
+        }
     };
 
     return (
         <section className="min-h-screen flex items-center justify-center px-4">
-            <title>{`Login | IdeaVault`}</title>
             <div className="w-full max-w-md bg-white dark:bg-gray-900 rounded-3xl shadow-xl p-8">
-                <h1 className="text-3xl font-bold text-center mb-6">
-                    Login
-                </h1>
 
-                <form
-                    onSubmit={handleLogin}
-                    className="space-y-4"
-                >
+                <h1 className="text-3xl font-bold text-center mb-6">Login</h1>
+
+                <form onSubmit={handleLogin} className="space-y-4">
                     <input
                         name="email"
                         type="email"
@@ -63,22 +83,24 @@ export default function LoginPage() {
 
                     <button
                         className="w-full bg-yellow-500 text-white py-3 rounded-xl"
+                        disabled={loading}
                     >
                         {loading ? "Loading..." : "Login"}
                     </button>
                 </form>
 
-                <Button className="w-full mt-4" variant="tertiary" onClick={handleGoogle}>
+                <Button
+                    className="w-full mt-4"
+                    variant="tertiary"
+                    onClick={handleGoogle}
+                >
                     <Icon icon="devicon:google" />
                     Sign in with Google
                 </Button>
 
                 <p className="text-center mt-6">
                     No account?{" "}
-                    <Link
-                        href="/sign-up"
-                        className="text-yellow-600"
-                    >
+                    <Link href="/sign-up" className="text-yellow-600">
                         Register
                     </Link>
                 </p>

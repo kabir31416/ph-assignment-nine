@@ -29,7 +29,7 @@ export default function AddIdeaPage() {
     e.preventDefault();
 
     const { data } = await authClient.getSession();
-    const token = data?.session?.token;
+    const token = data?.token;
 
     const ideaData = {
       ...formData,
