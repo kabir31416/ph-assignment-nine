@@ -15,7 +15,10 @@ export default function MyInteractionsPage() {
     try {
       setLoading(true);
       const { data } = await authClient.getSession();
-      const token = data?.token;
+      const token = data?.session?.token;
+
+      console.log(data);
+      console.log(token);
 
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/my-interactions/${email}`,
