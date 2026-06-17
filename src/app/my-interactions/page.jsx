@@ -8,21 +8,21 @@ import { SquareArrowOutUpRight } from "lucide-react";
 export default function MyInteractionsPage() {
   const { data: session, isPending } = authClient.useSession();
   const user = session?.user;
+
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const loadInteractions = async (email) => {
     try {
       setLoading(true);
+
       const { data } = await authClient.getSession();
       const token = data?.session?.token;
-
-      console.log(data);
-      console.log(token);
 
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/my-interactions/${email}`,
         {
+          method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -30,7 +30,18 @@ export default function MyInteractionsPage() {
       );
 
       const result = await res.json();
-      setComments(result);
+
+      console.log("STATUS:", res.status);
+      console.log("DATA:", result);
+
+      if (res.ok && Array.isArray(result)) {
+        setComments(result);
+      } else {
+        setComments([]); // 🔥 prevent map crash
+      }
+    } catch (error) {
+      console.error("Load interactions error:", error);
+      setComments([]);
     } finally {
       setLoading(false);
     }
@@ -45,16 +56,19 @@ export default function MyInteractionsPage() {
   const handleDelete = async (id) => {
     try {
       const { data } = await authClient.getSession();
-      const token = data?.token;
+      const token = data?.session?.token;
 
-      await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/comments/${id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/comments/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-      setComments(comments.filter((item) => item._id !== id));
+      setComments((prev) => prev.filter((item) => item._id !== id));
     } catch (error) {
       console.error("Delete failed:", error);
     }
@@ -68,57 +82,53 @@ export default function MyInteractionsPage() {
     );
   }
 
-
   return (
     <section className="min-h-screen px-4 py-10">
-      <title>My Interactions | IdeaVault</title>
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold mb-8">
-          My Interactions ({comments.length})
-        </h1>
+      <h1 className="text-3xl font-bold mb-8">
+        My Interactions ({Array.isArray(comments) ? comments.length : 0})
+      </h1>
 
-        {loading ? (
-          <p className="text-gray-500">Loading comments...</p>
-        ) : comments.length === 0 ? (
-          <p className="text-gray-500">No interactions found.</p>
-        ) : (
-          <div className="space-y-5">
-            {comments.map((item) => (
-              <div
-                key={item._id}
-                className="bg-white dark:bg-gray-900 rounded-2xl shadow p-3 border"
+      {loading ? (
+        <p className="text-gray-500">Loading comments...</p>
+      ) : Array.isArray(comments) && comments.length > 0 ? (
+        <div className="space-y-5">
+          {comments.map((item) => (
+            <div
+              key={item._id}
+              className="bg-white dark:bg-gray-900 rounded-2xl shadow p-3 border"
+            >
+              <Link
+                href={`/ideas/${item.idea?._id}`}
+                className="flex gap-1 items-center text-xl font-semibold text-yellow-600 hover:underline"
               >
-                <Link
-                  href={`/ideas/${item.idea?._id}`}
-                  className="flex gap-1 items-center text-xl font-semibold text-yellow-600 hover:underline"
+                {item.idea?.title}
+                <SquareArrowOutUpRight height={20} width={20} />
+              </Link>
+
+              <p className="text-gray-700 dark:text-gray-300">
+                {item.text}
+              </p>
+
+              <div className="flex items-center justify-between mt-2">
+                <span className="text-sm text-gray-400">
+                  {item.createdAt
+                    ? new Date(item.createdAt).toLocaleString()
+                    : ""}
+                </span>
+
+                <button
+                  onClick={() => handleDelete(item._id)}
+                  className="text-red-500 hover:underline"
                 >
-                  {item.idea?.title}
-                  <SquareArrowOutUpRight height={20} width={20} />
-                </Link>
-
-                <p className="text-gray-700 dark:text-gray-300">
-                  {item.text}
-                </p>
-
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-gray-400">
-                    {item.createdAt
-                      ? new Date(item.createdAt).toLocaleString()
-                      : ""}
-                  </span>
-
-                  <button
-                    onClick={() => handleDelete(item._id)}
-                    className="text-red-500 hover:underline"
-                  >
-                    Delete
-                  </button>
-                </div>
+                  Delete
+                </button>
               </div>
-            ))}
-          </div>
-        )}
-      </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p className="text-gray-500">No interactions found.</p>
+      )}
     </section>
   );
 }
