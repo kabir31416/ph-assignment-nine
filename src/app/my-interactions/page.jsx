@@ -31,8 +31,8 @@ export default function MyInteractionsPage() {
 
       const result = await res.json();
 
-      console.log("STATUS:", res.status);
-      console.log("DATA:", result);
+      // console.log("STATUS:", res.status);
+      // console.log("DATA:", result);
 
       if (res.ok && Array.isArray(result)) {
         setComments(result);
